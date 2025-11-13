@@ -1,0 +1,17 @@
+{
+  "name": "oczko",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass-watch": "sass --watch sass:css",
+    "css-watch": "browser-sync start --server --files 'css/*.css'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "sass": "^1.93.3"
+  }
+}

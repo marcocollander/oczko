@@ -1,0 +1,55 @@
+.header {
+  padding: 10px 0 10px 0;
+  display: flex;
+  justify-content: space-around;
+
+  &__logo{
+    border-radius: 50%;
+  }
+
+  &__heading{
+    text-transform: uppercase;
+    font-size: 2.8rem;
+    font-weight: normal;
+  }
+}
+
+.nav {
+  display: flex;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &__line{
+    margin-bottom: 6px;
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    border-radius: 5px;
+  }
+}
+
+
+
+.menu {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 1.6rem;
+  font-weight: normal;
+  list-style: none;
+
+  &__link{
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.active {
+  display: flex;
+}

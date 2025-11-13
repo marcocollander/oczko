@@ -1,0 +1,275 @@
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  background-color: green;
+  font-size: 62.5%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.roboto {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.header {
+  padding: 10px 0 10px 0;
+  display: flex;
+  justify-content: space-around;
+}
+.header__logo {
+  border-radius: 50%;
+}
+.header__heading {
+  text-transform: uppercase;
+  font-size: 2.8rem;
+  font-weight: normal;
+}
+
+.nav {
+  display: flex;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.hamburger__line {
+  margin-bottom: 6px;
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.menu {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 1.6rem;
+  font-weight: normal;
+  list-style: none;
+}
+.menu__link {
+  text-decoration: none;
+  color: white;
+}
+
+.active {
+  display: flex;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.player__score {
+  font-size: 2rem;
+  text-align: center;
+  color: red;
+}
+.player__hand {
+  position: relative;
+  width: 100%;
+  height: 100px;
+}
+.player__buttons {
+  margin: 10px auto;
+  width: 200px;
+}
+
+.computer__score {
+  font-size: 2rem;
+  text-align: center;
+  color: red;
+}
+.computer__hand {
+  position: relative;
+  width: 100%;
+  height: 100px;
+}
+.computer__buttons {
+  margin: 10px auto;
+  width: 200px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.heading {
+  margin-bottom: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  font-weight: normal;
+}
+
+.deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.fly1 {
+  position: absolute;
+  animation: fly1 0.3s forwards;
+}
+
+.fly2 {
+  position: absolute;
+  animation: fly2 0.3s forwards;
+}
+
+.fly3 {
+  position: absolute;
+  animation: fly3 0.3s forwards;
+}
+
+.fly4 {
+  position: absolute;
+  animation: fly4 0.3s forwards;
+}
+
+.fly5 {
+  position: absolute;
+  animation: fly5 0.3s forwards;
+}
+
+.fly6 {
+  position: absolute;
+  animation: fly6 0.3s forwards;
+}
+
+.fly7 {
+  position: absolute;
+  animation: fly7 0.3s forwards;
+}
+
+.fly8 {
+  position: absolute;
+  animation: fly8 0.3s forwards;
+}
+
+.fly9 {
+  position: absolute;
+  animation: fly9 0.3s forwards;
+}
+
+@keyframes fly1 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 50px;
+    transform: translateY(0) rotate(-20deg);
+  }
+}
+@keyframes fly2 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 60px;
+    transform: translateY(0) rotate(-10deg);
+    z-index: 1;
+  }
+}
+@keyframes fly3 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 70px;
+    transform: translateY(0) rotate(0deg);
+    z-index: 2;
+  }
+}
+@keyframes fly4 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 80px;
+    transform: translateY(0) rotate(10deg);
+    z-index: 3;
+  }
+}
+@keyframes fly5 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 90px;
+    transform: translateY(0) rotate(20deg);
+    z-index: 4;
+  }
+}
+@keyframes fly6 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 100px;
+    transform: translateY(0) rotate(30deg);
+    z-index: 5;
+  }
+}
+@keyframes fly7 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 110px;
+    transform: translateY(0) rotate(40deg);
+    z-index: 6;
+  }
+}
+@keyframes fly8 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 120px;
+    transform: translateY(0) rotate(50deg);
+    z-index: 7;
+  }
+}
+@keyframes fly9 {
+  from {
+    transform: translateY(180px);
+  }
+  to {
+    top: 10px;
+    left: 130px;
+    transform: translateY(0) rotate(60deg);
+    z-index: 8;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
