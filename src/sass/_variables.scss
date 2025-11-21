@@ -1,0 +1,30 @@
+$color-primary: #218b11;
+$color-heading: #011742;
+$color-captions: #4adab3;
+
+$font-main: 'Quicksand', sans-serif;
+$font-second: 'Roboto', sans-serif;
+
+
+@mixin roboto {
+  font-family: 'Roboto', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 1px;
+}
+
+@mixin quicksand {
+  font-family: 'Quicksand', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 1px;
+}
+
+@mixin m-plus {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+}

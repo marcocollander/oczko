@@ -1,14 +1,27 @@
+@use './variables' as *;
+
 .game{
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
+
+.match {
+  &__result {
+    font-size: 2rem;
+    color: $color-heading;
+    letter-spacing: 1px;
+  }
+}
+
 .player {
+  margin-top: 20px;
   &__score{
     font-size: 2rem;
     text-align: center;
-    color: red;
+    color: $color-captions;
   }
 
   &__hand{
@@ -18,7 +31,7 @@
   }
 
   &__buttons {
-    margin: 10px auto;
+    margin: 30px auto;
     width: 200px;
   }
 }
@@ -27,7 +40,7 @@
   &__score{
     font-size: 2rem;
     text-align: center;
-    color: red;
+    color: $color-captions;
   }
   &__hand{
     position: relative;
@@ -36,7 +49,7 @@
   }
 
   &__buttons {
-    margin: 10px auto;
+    margin: 30px auto;
     width: 200px;
   }
 }
@@ -57,13 +70,15 @@
   text-transform: uppercase;
   font-size: 2.4rem;
   font-weight: normal;
+  color: $color-heading;
 }
 
 .deck {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .fly1 {

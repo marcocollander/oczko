@@ -1,4 +1,4 @@
-import {deck, buildShuffledDeck } from './deck.js';
+import {deck, buildShuffledDeck} from './deck.js';
 import {
   btnStartGame,
   btnGiveCardPlayer,
@@ -8,13 +8,16 @@ import {
   computerHand,
   playerScoreArea,
   computerScoreArea,
+  matchResultPlayer,
+  matchResultComputer,
 } from './init.js';
 
 let state = {
   phase: 'idle', // idle | running | player_stand | computer_turn | result
   deck: [],
-  player: { hand: [], score: 0 },
-  computer: { hand: [], score: 0 },
+  player: {hand: [], score: 0, scoreMatched: 0},
+  computer: {hand: [], score: 0, scoreMatched: 0},
+  matches: 0
 }
 
 function cardValueByIndex(cardIndex) {
@@ -47,7 +50,7 @@ function drawOne() {
   // jeśli oryginalny deck jest tablicą ścieżek, bierzemy indeks względem bazowej tablicy "deck"
   const cardPath = state.deck.pop();
   const idx = deck.indexOf(cardPath);
-  return { idx, src: cardPath };
+  return {idx, src: cardPath};
 }
 
 function renderHand(who, container) {
@@ -56,7 +59,7 @@ function renderHand(who, container) {
   hand.forEach((c, i) => {
     const img = document.createElement('img');
     img.src = c.src;
-    img.style.width = '60px';
+    img.style.width = '75px';
     img.classList.add(`fly${(i % 9) + 1}`);
     container.appendChild(img);
   });
@@ -65,6 +68,8 @@ function renderHand(who, container) {
 function updateScoresUI() {
   playerScoreArea.innerText = state.player.score;
   computerScoreArea.innerText = state.computer.score;
+  matchResultPlayer.innerText = state.player.scoreMatched;
+  matchResultComputer.innerText = state.computer.scoreMatched;
 }
 
 function setButtonsByPhase() {
@@ -80,8 +85,8 @@ const gameEngine = {
     state = {
       phase: 'running',
       deck: buildShuffledDeck(),
-      player: { hand: [], score: 0 },
-      computer: { hand: [], score: 0 },
+      player: {hand: [], score: 0, scoreMatched: state.player.scoreMatched},
+      computer: {hand: [], score: 0, scoreMatched: state.computer.scoreMatched},
     };
     // po jednej karcie na start
     this.drawFor('player');
@@ -110,6 +115,8 @@ const gameEngine = {
         state.phase = 'result';
         setButtonsByPhase();
         alert('Fura — przegrałeś');
+        state.computer.scoreMatched += 1;
+        updateScoresUI();
       }
     }
   },
@@ -137,30 +144,50 @@ const gameEngine = {
   resolve() {
     const ps = state.player.score;
     const cs = state.computer.score;
+
     if (ps > 21) {
       alert('Wygrał komputer (gracz > 21)');
+      state.computer.scoreMatched += 1;
     } else if (cs > 21) {
       alert('Wygrałeś (komputer > 21)');
+      state.player.scoreMatched += 1;
     } else if (ps === 21 && cs !== 21) {
       alert('Oczko! Wygrałeś');
+      state.player.scoreMatched += 1;
     } else if (cs === 21 && ps !== 21) {
       alert('Oczko komputera — przegrana');
+      state.computer.scoreMatched += 1;
     } else if (ps > cs) {
       alert('Wygrałeś z komputerem');
+      state.player.scoreMatched += 1;
     } else if (ps < cs) {
       alert('Wygrał komputer');
+      state.computer.scoreMatched += 1;
     } else {
       alert('Remis');
+      state.player.scoreMatched += 1;
+      state.computer.scoreMatched += 1
     }
+    updateScoresUI();
   },
 
   reset() {
-    state = {
-      phase: 'idle',
-      deck: [],
-      player: { hand: [], score: 0 },
-      computer: { hand: [], score: 0 },
-    };
+    if (state.matches === 0) {
+      state = {
+        phase: 'idle',
+        deck: [],
+        player: {hand: [], score: 0, scoreMatched: 0},
+        computer: {hand: [], score: 0, scoreMatched: 0},
+      };
+
+    } else {
+      state = {
+        phase: 'idle',
+        deck: buildShuffledDeck(),
+        player: {hand: [], score: 0, scoreMatched: state.player.scoreMatched},
+        computer: {hand: [], score: 0, scoreMatched: state.computer.scoreMatched},
+      }
+    }
     playerHand.innerHTML = '';
     computerHand.innerHTML = '';
     updateScoresUI();

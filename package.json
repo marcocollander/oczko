@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sass-watch": "sass --watch sass:css",
-    "css-watch": "browser-sync start --server --files 'css/*.css'"
+    "sass-watch": "sass --watch src/sass:src/css",
+    "serve": "php -S localhost:8000",
+    "dev": "browser-sync start --proxy http://localhost:8000 --files '**/*.css, **/*.html, **/*.js, **/*.php'"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,8 @@
   "devDependencies": {
     "browser-sync": "^3.0.4",
     "sass": "^1.93.3"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
   }
 }
