@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
+global $pdo;
 require __DIR__ . '/../config/config.php';
-require __DIR__ . '/session.php';
+require_once __DIR__ . '/session.php';
 
 $errors = [];
 
@@ -9,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim((string)($_POST['email'] ?? ''));
     $password = (string)($_POST['password'] ?? '');
 
-    $stmt = $pdo->prepare('SELECT id, password_hash FROM users WHERE email = ? LIMIT 1');
+    $stmt = $pdo->prepare('SELECT id, password_hash, username FROM users WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
@@ -20,7 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Regeneracja ID sesji po logowaniu (ochrona przed session fixation)
         session_regenerate_id(true);
         $_SESSION['user_id'] = (int)$user['id'];
-        $_SESSION['user_email'] = $email;
+        $_SESSION['email'] = $email;
+        $_SESSION['username'] = $user['username'];
+
 
         $next = $_GET['next'] ?? '/';
         // Zapobieganie open redirect
@@ -34,29 +37,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html lang="pl">
-<head>
-    <meta charset="utf-8">
-    <title>Logowanie</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+<?php require __DIR__ . '/../includes/head.php'; ?>
 <body>
-    <h1>Logowanie</h1>
+    <?php require __DIR__ . '/../includes/header.php'; ?>
+  <h1 class="heading heading--auth">Logowanie</h1>
 
     <?php foreach ($errors as $e): ?>
-        <p style="color:red"><?= htmlspecialchars($e, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
+      <p style="color:red"><?= htmlspecialchars($e, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
     <?php endforeach; ?>
 
-    <form method="post" action="/auth/login.php" novalidate>
-        <label>Email
-            <input type="email" name="email" required autocomplete="username">
-        </label><br>
-        <label>Hasło
-            <input type="password" name="password" required autocomplete="current-password">
-        </label><br>
-        <button type="submit">Zaloguj</button>
-    </form>
+  <form class="form"
+        action="/auth/login.php<?php if (isset($_GET['next'])): ?>?next=<?= urlencode((string)$_GET['next']) ?><?php endif; ?>"
+        method="POST">
+    <div class="form__field">
+      <label class="form__label" for="email">Email:</label>
+      <input class="form__control" type="email" id="email" name="email" required>
+    </div>
+    <div class="form__field">
+      <label class="form__label" for="password">Hasło:</label>
+      <input class="form__control" type="password" id="password" name="password" required>
+    </div>
+    <div class="form__field">
+      <button class="form__btn" type="submit">Zaloguj się</button>
+    </div>
+    <div class="form__field">
+      <p class="form__info">Nie masz konta? </p>
+      <a href="/auth/register.php">Zarejestruj się</a>
+    </div>
 
-    <p>Nie masz konta? <a href="/auth/register.php">Zarejestruj się</a></p>
+      <?php require __DIR__ . '/../includes/scripts.php'; ?>
+  </form>
+
+  <?php require __DIR__ . '/../includes/footer.php'; ?>
+
 </body>
 </html>
 

@@ -44,6 +44,7 @@
   }
   &__hand{
     position: relative;
+    right: 15px;
     width: 100%;
     height: 100px;
   }
@@ -71,6 +72,10 @@
   font-size: 2.4rem;
   font-weight: normal;
   color: $color-heading;
+
+  &--auth {
+    margin-top: 100px;
+  }
 }
 
 .deck {
@@ -147,7 +152,6 @@
     top: 10px;
     left: 60px;
     transform: translateY(0) rotate(-10deg);
-    z-index: 1;
   }
 }
 
@@ -159,7 +163,6 @@
     top: 10px;
     left: 70px;
     transform: translateY(0) rotate(0deg);
-    z-index: 2;
   }
 }
 
@@ -171,7 +174,6 @@
     top: 10px;
     left: 80px;
     transform: translateY(0) rotate(10deg);
-    z-index: 3;
   }
 }
 
@@ -183,7 +185,6 @@
     top: 10px;
     left: 90px;
     transform: translateY(0) rotate(20deg);
-    z-index: 4;
   }
 }
 
@@ -195,7 +196,6 @@
     top: 10px;
     left: 100px;
     transform: translateY(0) rotate(30deg);
-    z-index: 5;
   }
 }
 
@@ -207,7 +207,6 @@
     top: 10px;
     left: 110px;
     transform: translateY(0) rotate(40deg);
-    z-index: 6;
   }
 }
 
@@ -219,7 +218,6 @@
     top: 10px;
     left: 120px;
     transform: translateY(0) rotate(50deg);
-    z-index: 7;
   }
 }
 
@@ -231,7 +229,6 @@
     top: 10px;
     left: 130px;
     transform: translateY(0) rotate(60deg);
-    z-index: 8;
   }
 }
 

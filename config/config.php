@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__)); // katalog główny projektu
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->safeLoad(); // nie rzuci wyjątku, jeśli brak .env
 
 $DB_HOST = $_ENV['APP_DB_HOST'] ?? '127.0.0.1';
@@ -11,7 +13,7 @@ $DB_NAME = $_ENV['APP_DB_NAME'] ?? 'oczko';
 $DB_USER = $_ENV['APP_DB_USER'] ?? 'root';
 $DB_PASS = $_ENV['APP_DB_PASS'] ?? '';
 
-$dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4";
+$dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4;collation=utf8mb4_polish_ci";
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

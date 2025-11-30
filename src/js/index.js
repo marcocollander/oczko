@@ -1,4 +1,4 @@
-import {deck, buildShuffledDeck} from './deck.js';
+import { deck, buildShuffledDeck } from './deck.js';
 import {
   btnStartGame,
   btnGiveCardPlayer,
@@ -15,13 +15,33 @@ import {
 let state = {
   phase: 'idle', // idle | running | player_stand | computer_turn | result
   deck: [],
-  player: {hand: [], score: 0, scoreMatched: 0},
-  computer: {hand: [], score: 0, scoreMatched: 0},
-  matches: 0
-}
+  player: { hand: [], score: 0, scoreMatched: 0 },
+  computer: { hand: [], score: 0, scoreMatched: 0 },
+};
+
+let resultPlayer = {
+  matches:
+    window.__USER_STATS__ &&
+    Number.isInteger(window.__USER_STATS__.number_of_matches)
+      ? window.__USER_STATS__.number_of_matches
+      : 0,
+  matches_of_wins:
+    window.__USER_STATS__ &&
+    Number.isInteger(window.__USER_STATS__.number_of_wins)
+      ? window.__USER_STATS__.number_of_wins
+      : 0,
+};
+
+const user = document.getElementById('user');
+const span = document.createElement('span');
+span.innerText = `Mecze: ${resultPlayer.matches}, Wygrane: ${resultPlayer.matches_of_wins}`;
+span.classList.add('menu__link');
+user.appendChild(span);
+
+console.log(resultPlayer.matches, resultPlayer.matches_of_wins);
 
 function cardValueByIndex(cardIndex) {
-  // index w [0..51], wartość 2..10,J/Q/K=10, A=1/11
+  // index w [0..51], wartość 2..10,J/Q/K = 10, A = 1 /11
   const rank = cardIndex % 13; // 0..12 (2..A)
   if (rank <= 8) return rank + 2; // 2..10
   if (rank <= 11) return 10; // J,Q,K
@@ -29,7 +49,7 @@ function cardValueByIndex(cardIndex) {
 }
 
 function scoreHand(indices) {
-  // liczymy sumę, Asy jako 11 i zmniejszamy do 1 gdy trzeba
+  // liczymy sumę, Asy jako 11 i zmniejszamy do 1, gdy trzeba
   let total = 0;
   let aces = 0;
   for (const idx of indices) {
@@ -50,7 +70,7 @@ function drawOne() {
   // jeśli oryginalny deck jest tablicą ścieżek, bierzemy indeks względem bazowej tablicy "deck"
   const cardPath = state.deck.pop();
   const idx = deck.indexOf(cardPath);
-  return {idx, src: cardPath};
+  return { idx, src: cardPath };
 }
 
 function renderHand(who, container) {
@@ -70,12 +90,52 @@ function updateScoresUI() {
   computerScoreArea.innerText = state.computer.score;
   matchResultPlayer.innerText = state.player.scoreMatched;
   matchResultComputer.innerText = state.computer.scoreMatched;
+
+  if (state.player.scoreMatched === 10 || state.computer.scoreMatched === 10) {
+    alert(
+      'Koniec gry! Wynik końcowy:\nGracz: ' +
+        state.player.scoreMatched +
+        '\nKomputer: ' +
+        state.computer.scoreMatched,
+    );
+    // WYŚLIJ statystyki zalogowanego użytkownika
+    if (state.player.scoreMatched >= state.computer.scoreMatched) {
+      resultPlayer.matches_of_wins += 1;
+      resultPlayer.matches += 1;
+      sendStats(resultPlayer.matches, resultPlayer.matches_of_wins);
+      console.log(resultPlayer.matches, resultPlayer.matches_of_wins);
+    } else if (state.player.scoreMatched < state.computer.scoreMatched) {
+      resultPlayer.matches += 1;
+      sendStats(resultPlayer.matches, resultPlayer.matches_of_wins);
+      console.log(resultPlayer.matches, resultPlayer.matches_of_wins);
+    }
+    gameEngine.restart();
+  }
+}
+
+async function sendStats(numberOfMatches, numberOfWins) {
+  try {
+    const res = await fetch('/auth/save_stats.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        number_of_matches: Number(numberOfMatches),
+        number_of_wins: Number(numberOfWins),
+      }),
+      credentials: 'same-origin',
+    });
+    // opcjonalnie: obsłuż wynik
+    const json = await res.json();
+    console.log('save_stats', json);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function setButtonsByPhase() {
   const p = state.phase;
   btnStartGame.disabled = !(p === 'idle');
-  btnResetGame.disabled = (p === 'idle');
+  btnResetGame.disabled = p === 'idle';
   btnGiveCardPlayer.disabled = !(p === 'running');
   btnStopCardPlayer.disabled = !(p === 'running');
 }
@@ -85,8 +145,12 @@ const gameEngine = {
     state = {
       phase: 'running',
       deck: buildShuffledDeck(),
-      player: {hand: [], score: 0, scoreMatched: state.player.scoreMatched},
-      computer: {hand: [], score: 0, scoreMatched: state.computer.scoreMatched},
+      player: { hand: [], score: 0, scoreMatched: state.player.scoreMatched },
+      computer: {
+        hand: [],
+        score: 0,
+        scoreMatched: state.computer.scoreMatched,
+      },
     };
     // po jednej karcie na start
     this.drawFor('player');
@@ -97,7 +161,7 @@ const gameEngine = {
   drawFor(who) {
     const card = drawOne();
     state[who].hand.push(card);
-    state[who].score = scoreHand(state[who].hand.map(c => c.idx));
+    state[who].score = scoreHand(state[who].hand.map((c) => c.idx));
     if (who === 'player') {
       renderHand('player', playerHand);
     } else {
@@ -129,8 +193,11 @@ const gameEngine = {
   },
 
   computerTurn() {
-    // prosty algorytm: dobiera do przebicia gracza i min. 17
-    while (state.computer.score < 17 || state.computer.score < state.player.score) {
+    // Prosty algorytm: dobiera do przebicia gracza i min. 17
+    while (
+      state.computer.score < 17 ||
+      state.computer.score < state.player.score
+    ) {
       const prev = state.computer.score;
       this.drawFor('computer');
       if (state.computer.score === prev) break; // safeguard
@@ -155,7 +222,7 @@ const gameEngine = {
       alert('Oczko! Wygrałeś');
       state.player.scoreMatched += 1;
     } else if (cs === 21 && ps !== 21) {
-      alert('Oczko komputera — przegrana');
+      alert('Oczko komputera — przegrałeś');
       state.computer.scoreMatched += 1;
     } else if (ps > cs) {
       alert('Wygrałeś z komputerem');
@@ -166,28 +233,38 @@ const gameEngine = {
     } else {
       alert('Remis');
       state.player.scoreMatched += 1;
-      state.computer.scoreMatched += 1
+      state.computer.scoreMatched += 1;
     }
     updateScoresUI();
   },
 
   reset() {
-    if (state.matches === 0) {
-      state = {
-        phase: 'idle',
-        deck: [],
-        player: {hand: [], score: 0, scoreMatched: 0},
-        computer: {hand: [], score: 0, scoreMatched: 0},
-      };
-
-    } else {
-      state = {
-        phase: 'idle',
-        deck: buildShuffledDeck(),
-        player: {hand: [], score: 0, scoreMatched: state.player.scoreMatched},
-        computer: {hand: [], score: 0, scoreMatched: state.computer.scoreMatched},
-      }
-    }
+    state = {
+      phase: 'idle',
+      deck: buildShuffledDeck(),
+      player: { hand: [], score: 0, scoreMatched: state.player.scoreMatched },
+      computer: {
+        hand: [],
+        score: 0,
+        scoreMatched: state.computer.scoreMatched,
+      },
+    };
+    playerHand.innerHTML = '';
+    computerHand.innerHTML = '';
+    updateScoresUI();
+    setButtonsByPhase();
+  },
+  restart() {
+    state = {
+      phase: 'idle',
+      deck: buildShuffledDeck(),
+      player: { hand: [], score: 0, scoreMatched: 0 },
+      computer: {
+        hand: [],
+        score: 0,
+        scoreMatched: 0,
+      },
+    };
     playerHand.innerHTML = '';
     computerHand.innerHTML = '';
     updateScoresUI();
@@ -196,6 +273,7 @@ const gameEngine = {
 };
 
 // Inicjalizacja UI
+
 gameEngine.reset();
 
 // Handlers
@@ -215,4 +293,3 @@ btnStopCardPlayer.addEventListener('click', () => {
 btnResetGame.addEventListener('click', () => {
   gameEngine.reset();
 });
-

@@ -58,7 +58,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 100;
+  z-index: 10001;
 }
 .hamburger__line {
   margin-bottom: 6px;
@@ -108,18 +108,18 @@
   position: absolute;
   top: 0;
   right: -350px;
-  width: 320px;
-  height: 95vh;
+  width: 350px;
+  height: 86vh;
   background-color: #5ecf55;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
-  font-size: 2rem;
+  gap: 30px;
+  font-size: 1.8rem;
   font-weight: normal;
   list-style: none;
-  z-index: 99;
+  z-index: 1000;
   border-radius: 10px;
 }
 .menu__item {
@@ -129,6 +129,8 @@
 .menu__link {
   text-decoration: none;
   color: white;
+  text-align: center;
+  display: block;
 }
 
 @keyframes show {
@@ -136,7 +138,7 @@
     right: -350px;
   }
   to {
-    right: 0;
+    right: -10px;
   }
 }
 @keyframes not-show {
@@ -144,7 +146,7 @@
     right: 0;
   }
   to {
-    right: -350px;
+    right: -400px;
   }
 }
 .game {
@@ -186,6 +188,7 @@
 }
 .computer__hand {
   position: relative;
+  right: 15px;
   width: 100%;
   height: 100px;
 }
@@ -211,6 +214,9 @@
   font-size: 2.4rem;
   font-weight: normal;
   color: #011742;
+}
+.heading--auth {
+  margin-top: 100px;
 }
 
 .deck {
@@ -284,7 +290,6 @@
     top: 10px;
     left: 60px;
     transform: translateY(0) rotate(-10deg);
-    z-index: 1;
   }
 }
 @keyframes fly3 {
@@ -295,7 +300,6 @@
     top: 10px;
     left: 70px;
     transform: translateY(0) rotate(0deg);
-    z-index: 2;
   }
 }
 @keyframes fly4 {
@@ -306,7 +310,6 @@
     top: 10px;
     left: 80px;
     transform: translateY(0) rotate(10deg);
-    z-index: 3;
   }
 }
 @keyframes fly5 {
@@ -317,7 +320,6 @@
     top: 10px;
     left: 90px;
     transform: translateY(0) rotate(20deg);
-    z-index: 4;
   }
 }
 @keyframes fly6 {
@@ -328,7 +330,6 @@
     top: 10px;
     left: 100px;
     transform: translateY(0) rotate(30deg);
-    z-index: 5;
   }
 }
 @keyframes fly7 {
@@ -339,7 +340,6 @@
     top: 10px;
     left: 110px;
     transform: translateY(0) rotate(40deg);
-    z-index: 6;
   }
 }
 @keyframes fly8 {
@@ -350,7 +350,6 @@
     top: 10px;
     left: 120px;
     transform: translateY(0) rotate(50deg);
-    z-index: 7;
   }
 }
 @keyframes fly9 {
@@ -361,8 +360,70 @@
     top: 10px;
     left: 130px;
     transform: translateY(0) rotate(60deg);
-    z-index: 8;
   }
+}
+.form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: #fff;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 1px;
+}
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.form__field a {
+  color: #fff;
+  text-decoration: none;
+}
+.form__control {
+  border-radius: 3px;
+  border: none;
+  font-size: 2.4rem;
+  font-weight: 300;
+}
+.form__btn {
+  margin-top: 20px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.form__info {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  color: #fff;
+  text-align: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 1.2rem;
+  text-align: center;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+}
+.footer__text {
+  margin-top: 8px;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,46 +1,19 @@
-<!doctype html>
+ <!doctype html>
 <html lang="pl">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Card Game - Vanilla JS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./src/css/main.css"/>
-  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
-</head>
+<?php require __DIR__ . '/includes/head.php'; ?>
 
 <body>
-  <nav class="nav">
-    <button class="hamburger">
-      <span class="hamburger__line"></span>
-      <span class="hamburger__line"></span>
-      <span class="hamburger__line"></span>
-    </button>
-    <ul class="menu inactive">
-      <li class="menu__item"><a class="menu__link" href="/">Strona główna</a></li>
-      <li class="menu__item"><a class="menu__link" href="/about">O mnie</a></li>
-      <li class="menu__item"><a class="menu__link" href="/contact">Kontakt</a></li>
-        <?php require __DIR__ . '/auth/session.php'; ?>
-        <?php if (is_logged_in()): ?>
-          <li class="menu__item">
-            <span
-              class="menu__link">Witaj, <?= htmlspecialchars($_SESSION['user_email'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
-          </li>
-          <li class="menu__item"><a class="menu__link" href="/auth/logout.php">Wyloguj</a></li>
-        <?php else: ?>
-          <li class="menu__item"><a class="menu__link" href="/auth/login.php">Logowanie</a></li>
-          <li class="menu__item"><a class="menu__link" href="/auth/register.php">Rejestracja</a></li>
-        <?php endif; ?>
-    </ul>
-  </nav>
-  <header class="header">
-    <img class="header__logo" src="./assets/logo.png" alt="logo" width="50">
-    <h1 class="header__heading">Gra w oczko</h1>
-  </header>
+<?php require __DIR__ . '/includes/header.php'; ?>
+    <?php
+    global$pdo;
+    // Wstrzyknięcie statystyk do JS jeśli zalogowany
+    require_once __DIR__ . '/auth/session.php';
+    require_once __DIR__ . '/config/config.php';
+    $stats = get_current_user_stats($pdo);
+    ?>
+  <script>
+    window.__USER_STATS__ = <?= json_encode($stats, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+  </script>
 
   <main class="game">
     <section class="match">
@@ -78,7 +51,7 @@
     </section>
   </main>
 
-  <script type="module" src="./src/js/index.js"></script>
-  <script src="./src/js/navigate.js"></script>
+<?php require __DIR__ . '/includes/scripts.php'; ?>
+  <?php require __DIR__ . '/includes/footer.php'; ?>
 </body>
 </html>
