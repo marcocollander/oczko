@@ -7,6 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/src/css/main.css"/>
+    <link rel="stylesheet" href="/public/css/main.css"/>
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
 </head>

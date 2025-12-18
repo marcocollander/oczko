@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
-global $pdo;
 
 require __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/session.php';
 
 header('Content-Type: application/json');
 
@@ -46,4 +44,21 @@ try {
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'db_error']);
+}
+
+// Helper do pobrania statystyk bieżącego użytkownika
+function get_current_user_stats(PDO $pdo): array {
+  if (!is_logged_in()) {
+    return ['number_of_matches' => null, 'number_of_wins' => null];
+  }
+  $stmt = $pdo->prepare('SELECT number_of_matches, number_of_wins FROM users WHERE id = ? LIMIT 1');
+  $stmt->execute([(int)$_SESSION['user_id']]);
+  $row = $stmt->fetch() ?: null;
+  if (!$row) {
+    return ['number_of_matches' => 0, 'number_of_wins' => 0];
+  }
+  return [
+    'number_of_matches' => (int)$row['number_of_matches'],
+    'number_of_wins' => (int)$row['number_of_wins'],
+  ];
 }

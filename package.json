@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sass-watch": "sass --watch src/sass:src/css",
-    "serve": "php -S localhost:8000",
-    "dev": "browser-sync start --proxy http://localhost:8000 --files '**/*.css, **/*.html, **/*.js, **/*.php'"
+    "start": "php -S localhost:8000",
+    "dev": "browser-sync start --proxy http://localhost:8000 --files '**/*.css, **/*.html, **/*.js, **/*.php'",
+    "sass": "sass --watch public/sass:public/css"
   },
   "keywords": [],
   "author": "",

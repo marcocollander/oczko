@@ -20,23 +20,15 @@ let state = {
 };
 
 let resultPlayer = {
-  matches:
-    window.__USER_STATS__ &&
-    Number.isInteger(window.__USER_STATS__.number_of_matches)
-      ? window.__USER_STATS__.number_of_matches
-      : 0,
-  matches_of_wins:
-    window.__USER_STATS__ &&
-    Number.isInteger(window.__USER_STATS__.number_of_wins)
-      ? window.__USER_STATS__.number_of_wins
-      : 0,
+  matches:  0,
+  matches_of_wins: 0,
 };
 
-const user = document.getElementById('user');
+/*const user = document.getElementById('user');
 const span = document.createElement('span');
 span.innerText = `Mecze: ${resultPlayer.matches}, Wygrane: ${resultPlayer.matches_of_wins}`;
 span.classList.add('menu__link');
-user.appendChild(span);
+user.appendChild(span);*/
 
 console.log(resultPlayer.matches, resultPlayer.matches_of_wins);
 
