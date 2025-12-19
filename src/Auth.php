@@ -54,7 +54,7 @@ class Auth
 
   public static function logout_clean(): void
   {
-    self::start_session();
+    self::startSession();
     $_SESSION = [];
     if (ini_get('session.use_cookies')) {
       $params = session_get_cookie_params();

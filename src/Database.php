@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
+use AllowDynamicProperties;
 use PDO;
 use PDOException;
 
+#[AllowDynamicProperties]
 class Database
 {
   private PDO $pdo;
@@ -65,7 +67,9 @@ class Database
     $ins = $this->pdo->prepare('INSERT INTO users (email, password_hash, username) VALUES (?, ?, ?)');
     $ins->execute([$email, $hash, $username]);
 
-    echo 'Rejestracja zakończona sukcesem. Możesz się teraz zalogować.';
+    echo "Rejestracja zakończona sukcesem. Możesz się teraz zalogować.<br>";
+    echo "<a href='/login'>Logowanie</a><br>";
+    echo "<a href='/'>Powrót na stronę główną</a>";
   }
 
   public function login(): void
@@ -85,16 +89,11 @@ class Database
       echo 'nieprawidłowy email';
     }
 
-
-
     $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    print_r($user);
-
-    if (!$user || !password_verify($password, '$2y$12$Nx1Cyc.BDV8cH0Y.wm4HROJbooWzbJ8.beRgpkh/gPcQaV7DOHOyK')) {
-
+    if (!$user || !password_verify($password, $user['password_hash'])) {
       echo 'Nieprawidłowy e-mail lub hasło.';
       exit;
     }
