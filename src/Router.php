@@ -8,36 +8,29 @@ class Router
 
   private array $routes = [];
 
-  public function addRoute(string $method, string $path, array $handler): void
+  public function __construct ()
   {
-    $this->routes[] = [
-      'method' => $method,
-      'path' => $path,
-      'handler' => $handler
-    ];
+    $this->loadRoutes (require __DIR__ . '/routes.php');
   }
 
-  public function resolve(): void
+  private function loadRoutes (array $routes): void
   {
-    $path = Request::getPath();
-    $method = Request::getMethod();
+    $this->routes = $routes;
+  }
 
-    foreach ($this->routes as $route) {
-      if ($route['path'] === $path && $route['method'] === $method){
-        $handler = $route['handler'];
 
-        if (is_array($handler)) {
-          [ $controllerClass, $action ] = $handler;
-          $controller = new $controllerClass();
-          $controller->$action();
-        } else {
-          $handler();
-        }
-        return;
-      }
+  public function resolve (): void
+  {
+    $path = Request::getPath ();
+    $method = Request::getMethod ();
 
+    $controlers = new Controller();
+
+    if (array_key_exists ($method, $this->routes) && array_key_exists ($path, $this->routes[$method])) {
+      $controlers->{$this->routes[$method][$path]}();
+    } else {
+      http_response_code (404);
+      echo "404 Not Found - Strona nie istnieje.";
     }
-    http_response_code(404);
-    echo "404 Not Found - Strona nie istnieje.";
   }
 }

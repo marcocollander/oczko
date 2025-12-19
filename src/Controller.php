@@ -17,8 +17,7 @@ class Controller
 
   public function index(): void
   {
-    $view = new View();
-    $view->render('layout', 'home');
+    View::render('layout', 'home');
   }
 
   /**
@@ -26,14 +25,12 @@ class Controller
    */
   public function login(): void
   {
-    $view = new View();
-    $method = Request::getMethod();
+    View::render('layout', 'login', ['csrf' => Auth::generateCsrfToken()]);
+  }
 
-    if ($method === 'POST') {
-      $this->db->login();
-    } else {
-      $view->render('layout', 'login', ['csrf' => Auth::generateCsrfToken()]);
-    }
+  public function processLogin():void
+  {
+    $this->db->login();
   }
 
   /**
@@ -41,14 +38,12 @@ class Controller
    */
   public function register(): void
   {
-    $view = new View();
-    $method = Request::getMethod();
+      View::render('layout', 'register', ['csrf' => Auth::generateCsrfToken()]);
+  }
 
-    if ($method === 'POST') {
-      $this->db->register();
-    } else {
-      $view->render('layout', 'register', ['csrf' => Auth::generateCsrfToken()]);
-    }
+  public function processRegister():void
+  {
+    $this->db->register();
   }
 
   public function logout(): void

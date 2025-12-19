@@ -2,15 +2,16 @@
 
 use App\Controller;
 
-$routes = [
+return [
   'GET' => [
-    '/' => [Controller::class, 'index'],
-    '/login' => [Controller::class, 'login'],
-    '/register' => [Controller::class, 'register'],
-    '/logout' => [Controller::class, 'logout'],
+    '/' => 'index',
+    '/login' => 'login',
+    '/register' => 'register',
+    '/logout' => 'logout',
   ],
   'POST' => [
-    '/login' => [Controller::class, 'login'],
-    '/register' => [Controller::class, 'register'],
+    '/login' => 'processLogin',
+    '/register' =>  'processRegister',
   ],
 ];
+

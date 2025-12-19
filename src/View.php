@@ -6,7 +6,7 @@ namespace App;
 class View
 {
 
-  public function render(string $template, string $content, array $data = []): void
+  public static function render(string $template, string $content, array $data = []): void
   {
     $contentFile = __DIR__ . '/../template/pages/' . basename($content) . '.php';
     if (!is_file($contentFile)) {
